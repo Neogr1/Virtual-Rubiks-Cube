@@ -2,9 +2,9 @@
 
 Virtual machine for Rubik's cube with pygame
 
-Execute game.py to solve cube
+Execute game.py to solve Rubik's cube
 
-## command
+## Command
 |move|key|
 |----|---|
 |U|j|
