@@ -3,10 +3,12 @@
 class Cube:
     DEGREE = ['', "'", '2']
     SIDE = ['U', 'F', 'R', 'D', 'B', 'L']
-    EDGE = ['UF', 'UR', 'UD', 'UL', 'FL', 'FR', 'DR', 'DL', 'DF', 'DR', 'DB', 'DL']
-    CORNER = ['UFL', 'UFR', 'UDF', 'UDL', 'DFL', 'DFR', 'DBR', 'DBL']
+    # EDGE = ['UF', 'UR', 'UD', 'UL', 'FL', 'FR', 'DR', 'DL', 'DF', 'DR', 'DB', 'DL']
+    # CORNER = ['UFL', 'UFR', 'UDF', 'UDL', 'DFL', 'DFR', 'DBR', 'DBL']
+    COLOR = ['w', 'g', 'r', 'y', 'b', 'o'] # U, F, R, D, B, L
 
-    center = ['w', 'g', 'r', 'y', 'b', 'o'] # U, F, R, D, B, L
+
+    center = [0, 1, 2, 3, 4, 5] # U, F, R, D, B, L
     edge   = [[0, True], [1, True], [2, True], [3, True], [4, True], [5, True], [6, True], [7, True], [8, True], [9, True], [10, True], [11, True]] # uf, ur, ud, ul, fl, fr, ..., dl
     corner = [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0]] # ufl, ufr, udr, udl, dfl, dfr, dbr, dbl
 
@@ -15,19 +17,26 @@ class Cube:
         if shuffle:
             scramble = self.make_scramble()
         self.shuffle(scramble=scramble)
-        print(self)
+        # print(self)
     
+    def reset(self):
+        self.center = [0, 1, 2, 3, 4, 5]
+        self.edge   = [[0, True], [1, True], [2, True], [3, True], [4, True], [5, True], [6, True], [7, True], [8, True], [9, True], [10, True], [11, True]]
+        self.corner = [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0]]
+
     def is_solved(self):
         # center가 회전된 경우 고려 필요
         # 대문자 move만 하면 괜찮음
         return self.edge == [[e, True] for e in range(12)] and self.corner == [[c, 0] for c in range(8)]
+    
+
 
 
 
     def make_scramble(self):
         import random
 
-        sramble_length = random.randint(19, 21)
+        scramble_length = random.randint(19, 21)
 
         scramble = []
         
@@ -37,7 +46,7 @@ class Cube:
         scramble.append((sides[1], random.randint(0, 2)))
 
         # generate other moves
-        for i in range(sramble_length - 2):
+        for i in range(scramble_length - 2):
             side = random.randint(0, 5)
             degree = random.randint(0, 2)
 
@@ -49,7 +58,9 @@ class Cube:
         return scramble
 
 
-    def shuffle(self, scramble):
+    # default: shuffle 19~21 moves
+    # not to shuffle: scramble=[]
+    def shuffle(self, scramble=None):
         if scramble == None:
             scramble = self.make_scramble()
         
@@ -226,39 +237,122 @@ class Cube:
         self.move_R2()
         self.rotate_x2()
 
+
+    # L
     def move_M(self):
-        pass
+        self.center[0], self.center[4], self.center[3], self.center[1] = self.center[4], self.center[3], self.center[1], self.center[0]
+        self.edge[0], self.edge[2], self.edge[10], self.edge[8] = self.edge[2], self.edge[10], self.edge[8], self.edge[0]
+        self.edge[0][1], self.edge[2][1], self.edge[10][1], self.edge[8][1] = not self.edge[0][1], not self.edge[2][1], not self.edge[10][1], not self.edge[8][1]
     def move_M_(self):
-        pass
+        self.center[0], self.center[4], self.center[3], self.center[1] = self.center[1], self.center[0], self.center[4], self.center[3]
+        self.edge[0], self.edge[2], self.edge[10], self.edge[8] = self.edge[8], self.edge[0], self.edge[2], self.edge[10]
+        self.edge[0][1], self.edge[2][1], self.edge[10][1], self.edge[8][1] = not self.edge[0][1], not self.edge[2][1], not self.edge[10][1], not self.edge[8][1]
 
-    def move_S(self):
-        pass
-    def move_S_(self):
-        pass
-
+    # F
     def move_E(self):
-        pass
+        self.center[0], self.center[2], self.center[3], self.center[5] = self.center[5], self.center[0], self.center[2], self.center[3]
+        self.edge[3], self.edge[1], self.edge[9], self.edge[11] =  self.edge[11], self.edge[3], self.edge[1], self.edge[9]
+        
+        self.edge[3][1], self.edge[1][1], self.edge[9][1], self.edge[11][1] = not self.edge[3][1], not self.edge[1][1], not self.edge[9][1], not self.edge[11][1]
     def move_E_(self):
-        pass
+        self.center[0], self.center[2], self.center[3], self.center[5] = self.center[2], self.center[3], self.center[5], self.center[0]
+        self.edge[3], self.edge[1], self.edge[9], self.edge[11] =  self.edge[1], self.edge[9], self.edge[11], self.edge[3]
+        
+        self.edge[3][1], self.edge[1][1], self.edge[9][1], self.edge[11][1] = not self.edge[3][1], not self.edge[1][1], not self.edge[9][1], not self.edge[11][1]
 
+    # D
+    def move_S(self):
+        self.center[1], self.center[2], self.center[4], self.center[5] = self.center[5], self.center[1], self.center[2], self.center[4]
+        self.edge[4], self.edge[7], self.edge[6], self.edge[5] = self.edge[7], self.edge[6], self.edge[5], self.edge[4]
+
+        self.edge[4][1], self.edge[7][1], self.edge[6][1], self.edge[5][1] = not self.edge[4][1], not self.edge[7][1], not self.edge[6][1], not self.edge[5][1]
+    def move_S_(self):
+        self.center[1], self.center[2], self.center[4], self.center[5] = self.center[2], self.center[4], self.center[5], self.center[1]
+        self.edge[4], self.edge[7], self.edge[6], self.edge[5] = self.edge[5], self.edge[4], self.edge[7], self.edge[6]
+
+        self.edge[4][1], self.edge[7][1], self.edge[6][1], self.edge[5][1] = not self.edge[4][1], not self.edge[7][1], not self.edge[6][1], not self.edge[5][1]
+
+    
+    # R
     def rotate_x(self):
-        pass
+        self.center[0], self.center[4], self.center[3], self.center[1] = self.center[1], self.center[0], self.center[4], self.center[3]
+        self.edge[1], self.edge[6], self.edge[9], self.edge[5] = self.edge[5], self.edge[1], self.edge[6], self.edge[9]
+        self.edge[0], self.edge[2], self.edge[10], self.edge[8] = self.edge[8], self.edge[0], self.edge[2], self.edge[10]
+        self.edge[3], self.edge[4], self.edge[11], self.edge[7] = self.edge[4], self.edge[11], self.edge[7], self.edge[3]
+        self.corner[1], self.corner[2], self.corner[6], self.corner[5] = self.corner[5], self.corner[1], self.corner[2], self.corner[6]
+        self.corner[3], self.corner[0], self.corner[4], self.corner[7] = self.corner[0], self.corner[4], self.corner[7], self.corner[3]
+
+        self.edge[0][1], self.edge[2][1], self.edge[10][1], self.edge[8][1] = not self.edge[0][1], not self.edge[2][1], not self.edge[10][1], not self.edge[8][1]
+        self.corner[1][1], self.corner[2][1], self.corner[6][1], self.corner[5][1] = [1,0,2][self.corner[1][1]], [1,0,2][self.corner[2][1]], [1,0,2][self.corner[6][1]], [1,0,2][self.corner[5][1]]
+        self.corner[3][1], self.corner[0][1], self.corner[4][1], self.corner[7][1] = [1,0,2][self.corner[3][1]], [1,0,2][self.corner[0][1]], [1,0,2][self.corner[4][1]], [1,0,2][self.corner[7][1]]
     def rotate_x_(self):
-        pass
+        self.center[0], self.center[4], self.center[3], self.center[1] = self.center[4], self.center[3], self.center[1], self.center[0]
+        self.edge[1], self.edge[6], self.edge[9], self.edge[5] = self.edge[6], self.edge[9], self.edge[5], self.edge[1]
+        self.edge[0], self.edge[2], self.edge[10], self.edge[8] = self.edge[2], self.edge[10], self.edge[8], self.edge[0]
+        self.edge[3], self.edge[4], self.edge[11], self.edge[7] = self.edge[7], self.edge[3], self.edge[4], self.edge[11]
+        self.corner[1], self.corner[2], self.corner[6], self.corner[5] = self.corner[2], self.corner[6], self.corner[5], self.corner[1]
+        self.corner[3], self.corner[0], self.corner[4], self.corner[7] = self.corner[7], self.corner[3], self.corner[0], self.corner[4]
+
+        self.edge[0][1], self.edge[2][1], self.edge[10][1], self.edge[8][1] = not self.edge[0][1], not self.edge[2][1], not self.edge[10][1], not self.edge[8][1]
+        self.corner[1][1], self.corner[2][1], self.corner[6][1], self.corner[5][1] = [1,0,2][self.corner[1][1]], [1,0,2][self.corner[2][1]], [1,0,2][self.corner[6][1]], [1,0,2][self.corner[5][1]]
+        self.corner[3][1], self.corner[0][1], self.corner[4][1], self.corner[7][1] = [1,0,2][self.corner[3][1]], [1,0,2][self.corner[0][1]], [1,0,2][self.corner[4][1]], [1,0,2][self.corner[7][1]]
     def rotate_x2(self):
         pass
 
+    # U
     def rotate_y(self):
-        pass
+        self.center[1], self.center[2], self.center[4], self.center[5] = self.center[2], self.center[4], self.center[5], self.center[1]
+        self.edge[0], self.edge[3], self.edge[2], self.edge[1] = self.edge[1], self.edge[0], self.edge[3], self.edge[2]
+        self.edge[4], self.edge[7], self.edge[6], self.edge[5] = self.edge[5], self.edge[4], self.edge[7], self.edge[6]
+        self.edge[8], self.edge[9], self.edge[10], self.edge[11] = self.edge[9], self.edge[10], self.edge[11], self.edge[8]
+        self.corner[1], self.corner[0], self.corner[3], self.corner[2] = self.corner[2], self.corner[1], self.corner[0], self.corner[3]
+        self.corner[4], self.corner[5], self.corner[6], self.corner[7] = self.corner[5], self.corner[6], self.corner[7], self.corner[4]
+
+        self.edge[4][1], self.edge[7][1], self.edge[6][1], self.edge[5][1] = not self.edge[4][1], not self.edge[7][1], not self.edge[6][1], not self.edge[5][1]
+        self.corner[1][1], self.corner[0][1], self.corner[3][1], self.corner[2][1] = [0,2,1][self.corner[1][1]], [0,2,1][self.corner[0][1]], [0,2,1][self.corner[3][1]], [0,2,1][self.corner[2][1]]
+        self.corner[4][1], self.corner[5][1], self.corner[6][1], self.corner[7][1] = [0,2,1][self.corner[4][1]], [0,2,1][self.corner[5][1]], [0,2,1][self.corner[6][1]], [0,2,1][self.corner[7][1]]
+        
     def rotate_y_(self):
-        pass
+        self.center[1], self.center[2], self.center[4], self.center[5] = self.center[5], self.center[1], self.center[2], self.center[4]
+        self.edge[0], self.edge[3], self.edge[2], self.edge[1] = self.edge[3], self.edge[2], self.edge[1], self.edge[0]
+        self.edge[4], self.edge[7], self.edge[6], self.edge[5] = self.edge[7], self.edge[6], self.edge[5], self.edge[4]
+        self.edge[8], self.edge[9], self.edge[10], self.edge[11] = self.edge[11], self.edge[8], self.edge[9], self.edge[10]
+        self.corner[1], self.corner[0], self.corner[3], self.corner[2] = self.corner[0], self.corner[3], self.corner[2], self.corner[1]
+        self.corner[4], self.corner[5], self.corner[6], self.corner[7] = self.corner[7], self.corner[4], self.corner[5], self.corner[6]
+
+        self.edge[4][1], self.edge[7][1], self.edge[6][1], self.edge[5][1] = not self.edge[4][1], not self.edge[7][1], not self.edge[6][1], not self.edge[5][1]
+        self.corner[1][1], self.corner[0][1], self.corner[3][1], self.corner[2][1] = [0,2,1][self.corner[1][1]], [0,2,1][self.corner[0][1]], [0,2,1][self.corner[3][1]], [0,2,1][self.corner[2][1]]
+        self.corner[4][1], self.corner[5][1], self.corner[6][1], self.corner[7][1] = [0,2,1][self.corner[4][1]], [0,2,1][self.corner[5][1]], [0,2,1][self.corner[6][1]], [0,2,1][self.corner[7][1]]
     def rotate_y2(self):
         pass
-
+    
+    # F
     def rotate_z(self):
-        pass
+        self.center[0], self.center[2], self.center[3], self.center[5] = self.center[5], self.center[0], self.center[2], self.center[3]
+        self.edge[0], self.edge[5], self.edge[8], self.edge[4] = self.edge[4], self.edge[0], self.edge[5], self.edge[8]
+        self.edge[3], self.edge[1], self.edge[9], self.edge[11] =  self.edge[11], self.edge[3], self.edge[1], self.edge[9]
+        self.edge[2], self.edge[7], self.edge[10], self.edge[6] = self.edge[7], self.edge[10], self.edge[6], self.edge[2]
+        self.corner[2], self.corner[3], self.corner[7], self.corner[6] = self.corner[3], self.corner[7], self.corner[6], self.corner[2]
+        self.corner[0], self.corner[1], self.corner[5], self.corner[4] = self.corner[4], self.corner[0], self.corner[1], self.corner[5]
+        
+        self.edge[0][1], self.edge[5][1], self.edge[8][1], self.edge[4][1] = not self.edge[0][1], not self.edge[5][1], not self.edge[8][1], not self.edge[4][1]
+        self.edge[3][1], self.edge[1][1], self.edge[9][1], self.edge[11][1] = not self.edge[3][1], not self.edge[1][1], not self.edge[9][1], not self.edge[11][1]
+        self.edge[2][1], self.edge[7][1], self.edge[10][1], self.edge[6][1] = not self.edge[2][1], not self.edge[7][1], not self.edge[10][1], not self.edge[6][1]
+        self.corner[0][1], self.corner[1][1], self.corner[5][1], self.corner[4][1] = [2,1,0][self.corner[0][1]], [2,1,0][self.corner[1][1]], [2,1,0][self.corner[5][1]], [2,1,0][self.corner[4][1]]
+        self.corner[2][1], self.corner[3][1], self.corner[7][1], self.corner[6][1] = [2,1,0][self.corner[2][1]], [2,1,0][self.corner[3][1]], [2,1,0][self.corner[7][1]], [2,1,0][self.corner[6][1]]
     def rotate_z_(self):
-        pass
+        self.center[0], self.center[2], self.center[3], self.center[5] = self.center[2], self.center[3], self.center[5], self.center[0]
+        self.edge[0], self.edge[5], self.edge[8], self.edge[4] = self.edge[5], self.edge[8], self.edge[4], self.edge[0]
+        self.edge[3], self.edge[1], self.edge[9], self.edge[11] =  self.edge[1], self.edge[9], self.edge[11], self.edge[3]
+        self.edge[2], self.edge[7], self.edge[10], self.edge[6] = self.edge[6], self.edge[2], self.edge[7], self.edge[10]
+        self.corner[2], self.corner[3], self.corner[7], self.corner[6] = self.corner[6], self.corner[2], self.corner[3], self.corner[7]
+        self.corner[0], self.corner[1], self.corner[5], self.corner[4] = self.corner[1], self.corner[5], self.corner[4], self.corner[0]
+        
+        self.edge[0][1], self.edge[5][1], self.edge[8][1], self.edge[4][1] = not self.edge[0][1], not self.edge[5][1], not self.edge[8][1], not self.edge[4][1]
+        self.edge[3][1], self.edge[1][1], self.edge[9][1], self.edge[11][1] = not self.edge[3][1], not self.edge[1][1], not self.edge[9][1], not self.edge[11][1]
+        self.edge[2][1], self.edge[7][1], self.edge[10][1], self.edge[6][1] = not self.edge[2][1], not self.edge[7][1], not self.edge[10][1], not self.edge[6][1]
+        self.corner[0][1], self.corner[1][1], self.corner[5][1], self.corner[4][1] = [2,1,0][self.corner[0][1]], [2,1,0][self.corner[1][1]], [2,1,0][self.corner[5][1]], [2,1,0][self.corner[4][1]]
+        self.corner[2][1], self.corner[3][1], self.corner[7][1], self.corner[6][1] = [2,1,0][self.corner[2][1]], [2,1,0][self.corner[3][1]], [2,1,0][self.corner[7][1]], [2,1,0][self.corner[6][1]]
     def rotate_z2(self):
         pass
 
@@ -279,8 +373,8 @@ class Cube:
         return u_face, f_face, r_face, d_face, b_face, l_face
 
     def _fill_center(self, u_face, f_face, r_face, d_face, b_face, l_face):
-        u_face[1][1],f_face[1][1],r_face[1][1] = 0,1,2
-        d_face[1][1],b_face[1][1],l_face[1][1] = 3,4,5
+        u_face[1][1],f_face[1][1],r_face[1][1] = self.center[0],self.center[1],self.center[2]
+        d_face[1][1],b_face[1][1],l_face[1][1] = self.center[3],self.center[4],self.center[5]
 
     def _fill_edge(self, u_face, f_face, r_face, d_face, b_face, l_face):
         E = EDGE_COLOR = [(0,1),(0,2),(0,4),(0,5),
@@ -327,23 +421,23 @@ class Cube:
         u_face, f_face, r_face, d_face, b_face, l_face = self.get_face_color()
 
         for row in range(3):
-            u_face[row] = list(map(lambda x: self.center[x], u_face[row]))
-            f_face[row] = list(map(lambda x: self.center[x], f_face[row]))
-            r_face[row] = list(map(lambda x: self.center[x], r_face[row]))
-            d_face[row] = list(map(lambda x: self.center[x], d_face[row]))
-            b_face[row] = list(map(lambda x: self.center[x], b_face[row]))
-            l_face[row] = list(map(lambda x: self.center[x], l_face[row]))
+            u_face[row] = list(map(lambda x: self.COLOR[x], u_face[row]))
+            f_face[row] = list(map(lambda x: self.COLOR[x], f_face[row]))
+            r_face[row] = list(map(lambda x: self.COLOR[x], r_face[row]))
+            d_face[row] = list(map(lambda x: self.COLOR[x], d_face[row]))
+            b_face[row] = list(map(lambda x: self.COLOR[x], b_face[row]))
+            l_face[row] = list(map(lambda x: self.COLOR[x], l_face[row]))
 
         sep = ' | ' # length should be odd
         cube_in_string = ""
         cube_in_string += "   " + sep + ''.join(u_face[0]) + sep + '\n'
         cube_in_string += "   " + sep + ''.join(u_face[1]) + sep + '\n'
         cube_in_string += "   " + sep + ''.join(u_face[2]) + sep + '\n'
-        cube_in_string += "---" + "- -" + "---" + "- -" + "---" + "---" + "---" + '\n'
+        cube_in_string += "---" + "- -" + "---" + "- -" + "---" + "- -" + "---" + '\n'
         cube_in_string += ''.join(l_face[0]) + sep + ''.join(f_face[0]) + sep + ''.join(r_face[0]) + sep + ''.join(b_face[0]) + '\n'
         cube_in_string += ''.join(l_face[1]) + sep + ''.join(f_face[1]) + sep + ''.join(r_face[1]) + sep + ''.join(b_face[1]) + '\n'
         cube_in_string += ''.join(l_face[2]) + sep + ''.join(f_face[2]) + sep + ''.join(r_face[2]) + sep + ''.join(b_face[2]) + '\n'
-        cube_in_string += "---" + "- -" + "---" + "- -" + "---" + "---" + "---" + '\n'
+        cube_in_string += "---" + "- -" + "---" + "- -" + "---" + "- -" + "---" + '\n'
         cube_in_string += "   " + sep + ''.join(d_face[0]) + sep + '\n'
         cube_in_string += "   " + sep + ''.join(d_face[1]) + sep + '\n'
         cube_in_string += "   " + sep + ''.join(d_face[2]) + sep + '\n'
