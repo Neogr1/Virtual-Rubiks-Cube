@@ -34,24 +34,24 @@ class Cube:
 
 
     def make_scramble(self):
-        import random
+        from random import randint, sample
 
-        scramble_length = random.randint(19, 21)
+        scramble_length = randint(19, 21)
 
         scramble = []
         
         # generate first two moves
-        sides = random.sample([0, 1, 2, 3, 4, 5], 2)
-        scramble.append((sides[0], random.randint(0, 2)))
-        scramble.append((sides[1], random.randint(0, 2)))
+        sides = sample([0, 1, 2, 3, 4, 5], 2)
+        scramble.append((sides[0], randint(0, 2)))
+        scramble.append((sides[1], randint(0, 2)))
 
         # generate other moves
         for i in range(scramble_length - 2):
-            side = random.randint(0, 5)
-            degree = random.randint(0, 2)
+            side = randint(0, 5)
+            degree = randint(0, 2)
 
             while side == scramble[-1][0] or side % 3 == scramble[-1][0] % 3 == scramble[-2][0] % 3:
-                side = random.randint(0, 5)
+                side = randint(0, 5)
 
             scramble.append((side, degree))
 

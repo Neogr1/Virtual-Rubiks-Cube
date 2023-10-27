@@ -30,6 +30,12 @@ Inspired by [csTimer](https://cstimer.net)
 |z|`p`|z'|`q`|
 |Reset|`F5`|Shuffle|`F4`|
 
+## Sight
+You can modify the variable `FULL_SIGHT` by yourself.
+
+`True` to see all faces<br>
+`False` to see only U, R, F faces
+
 
 
 ## TODO
