@@ -4,6 +4,10 @@ Virtual machine for Rubik's cube with pygame
 
 Inspired by [csTimer](https://cstimer.net)
 
+<img src="./ingame_full_sight.png" width="450px" height="300px" title="Github_Logo"/>
+<img src="./ingame_urf_sight.png" width="300px" height="300px" title="Github_Logo"/>
+
+
 ## Execute
 `python3 game.py`
 
