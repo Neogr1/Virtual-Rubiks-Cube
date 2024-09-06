@@ -142,17 +142,29 @@ pg.display.set_caption("Rubik's Cube Simulator")
 screen = pg.display.set_mode((W, H), 0, 32)
 clock = pg.time.Clock()
 
+count = 0
+
+
+
+
 while True:
+    # count display
+    font = pg.font.SysFont('ubuntu', 15, True, False)
+    text = font.render("Current rotation counts: {}".format(count), True, (255, 255, 255))
+    
+    
     for event in pg.event.get():
         if event.type == QUIT:
             pg.quit()
             sys.exit()
 
         if event.type == KEYDOWN:
+            count += 1
             if event.key == K_F4:
                 cube.reset()
                 cube.shuffle()
             if event.key == K_F5:
+                count = 0
                 cube.reset()
 
             if event.key == K_j:
@@ -232,6 +244,7 @@ while True:
                 cube.rotate_z_()
 
     screen.fill(GREY)
+    
 
     # fill cube color
     face_color = cube.get_face_color()
@@ -249,6 +262,8 @@ while True:
     # draw lines
     for start, end in border_lines:
         pg.draw.line(screen, BLACK, start, end, width=5)
+        
+    screen.blit(text, (10, 5))
     
     pg.display.update()
     clock.tick(fps)
