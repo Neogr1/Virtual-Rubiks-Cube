@@ -149,8 +149,8 @@ count = 0
 
 while True:
     # count display
-    font = pg.font.SysFont('ubuntu', 15, True, False)
-    text = font.render("Current rotation counts: {}".format(count), True, (255, 255, 255))
+    font = pg.font.SysFont('ubuntu', 25, True, False)
+    text = font.render("Rotation counts: {}".format(count), True, (255, 255, 255))
     
     
     for event in pg.event.get():
@@ -161,11 +161,13 @@ while True:
         if event.type == KEYDOWN:
             count += 1
             if event.key == K_F4:
+                count -= 1
                 cube.reset()
                 cube.shuffle()
             if event.key == K_F5:
                 count = 0
                 cube.reset()
+                
 
             if event.key == K_j:
                 cube.move_U()
@@ -231,16 +233,22 @@ while True:
             #     cube.move_S_()
                 
             if event.key == K_t or event.key == K_y:
+                count -= 1
                 cube.rotate_x()
             if event.key == K_b or event.key == K_n:
+                count -= 1
                 cube.rotate_x_()
             if event.key == K_SEMICOLON:
+                count -= 1
                 cube.rotate_y()
             if event.key == K_a:
+                count -= 1
                 cube.rotate_y_()
             if event.key == K_p:
+                count -= 1
                 cube.rotate_z()
             if event.key == K_q:
+                count -= 1
                 cube.rotate_z_()
 
     screen.fill(GREY)
