@@ -254,7 +254,7 @@ while True:
     screen.fill(GREY)
     
 
-    # fill cube color
+    # fill cube coor
     face_color = cube.get_face_color()
     for r in range(3):
         for c in range(3):
