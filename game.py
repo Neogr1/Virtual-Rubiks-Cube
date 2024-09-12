@@ -135,6 +135,7 @@ if FULL_SIGHT:
 
 
 
+
 cube = Cube(shuffle=True)
 
 pg.init()
@@ -142,13 +143,13 @@ pg.display.set_caption("Rubik's Cube Simulator")
 screen = pg.display.set_mode((W, H), 0, 32)
 clock = pg.time.Clock()
 
-count = 0
-
 font = pg.font.SysFont('ubuntu', 25, True, False)
-text = font.render("Rotation counts: {}".format(count), True, (255, 255, 255))
+
+count = 0
 
 while True:
     # count display
+    text = font.render("Rotation counts: {}".format(count), True, (255, 255, 255))
     
     for event in pg.event.get():
         if event.type == QUIT:
