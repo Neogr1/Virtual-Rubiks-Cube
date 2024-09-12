@@ -159,9 +159,8 @@ while True:
             sys.exit()
 
         if event.type == KEYDOWN:
-            count += 1
             if event.key == K_F4:
-                count -= 1
+                count = 0
                 cube.reset()
                 cube.shuffle()
             if event.key == K_F5:
@@ -171,58 +170,80 @@ while True:
 
             if event.key == K_j:
                 cube.move_U()
+                count += 1
             if event.key == K_f:
                 cube.move_U_()
+                count += 1
             if event.key == K_h:
                 cube.move_F()
+                count += 1
             if event.key == K_g:
                 cube.move_F_()
+                count += 1
             if event.key == K_i:
                 cube.move_R()
+                count += 1
             if event.key == K_k:
                 cube.move_R_()
+                count += 1
             if event.key == K_s:
                 cube.move_D()
+                count += 1
             if event.key == K_l:
                 cube.move_D_()
+                count += 1
             if event.key == K_w:
                 cube.move_B()
+                count += 1
             if event.key == K_o:
                 cube.move_B_()
+                count += 1
             if event.key == K_d:
                 cube.move_L()
+                count += 1
             if event.key == K_e:
                 cube.move_L_()
+                count += 1
 
             if event.key == K_COMMA:
                 cube.move_u()
+                count += 1
             if event.key == K_c:
                 cube.move_u_()
+                count += 1
             # if event.key == K_:
             #     cube.move_f()
             # if event.key == K_:
             #     cube.move_f_()
             if event.key == K_u:
                 cube.move_r()
+                count += 1
             if event.key == K_m:
                 cube.move_r_()
+                count += 1
             if event.key == K_z:
                 cube.move_d()
+                count += 1
             if event.key == K_SLASH:
                 cube.move_d_()
+                count += 1
             # if event.key == K_:
             #     cube.move_b()
             # if event.key == K_:
             #     cube.move_b_()
             if event.key == K_v:
                 cube.move_l()
+                count += 1
             if event.key == K_r:
                 cube.move_l_()
+                count += 1
 
             if event.key == K_5 or event.key == K_6:
                 cube.move_M()
+                count += 1
             if event.key == K_x or event.key == K_PERIOD:
                 cube.move_M_()
+                count += 1
             # if event.key == K_:
             #     cube.move_E()
             # if event.key == K_:
@@ -233,22 +254,16 @@ while True:
             #     cube.move_S_()
                 
             if event.key == K_t or event.key == K_y:
-                count -= 1
                 cube.rotate_x()
             if event.key == K_b or event.key == K_n:
-                count -= 1
                 cube.rotate_x_()
             if event.key == K_SEMICOLON:
-                count -= 1
                 cube.rotate_y()
             if event.key == K_a:
-                count -= 1
                 cube.rotate_y_()
             if event.key == K_p:
-                count -= 1
                 cube.rotate_z()
             if event.key == K_q:
-                count -= 1
                 cube.rotate_z_()
 
     screen.fill(GREY)
