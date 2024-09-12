@@ -144,14 +144,11 @@ clock = pg.time.Clock()
 
 count = 0
 
-
-
+font = pg.font.SysFont('ubuntu', 25, True, False)
+text = font.render("Rotation counts: {}".format(count), True, (255, 255, 255))
 
 while True:
     # count display
-    font = pg.font.SysFont('ubuntu', 25, True, False)
-    text = font.render("Rotation counts: {}".format(count), True, (255, 255, 255))
-    
     
     for event in pg.event.get():
         if event.type == QUIT:
