@@ -135,6 +135,7 @@ if FULL_SIGHT:
 
 
 
+
 cube = Cube(shuffle=True)
 
 pg.init()
@@ -142,7 +143,14 @@ pg.display.set_caption("Rubik's Cube Simulator")
 screen = pg.display.set_mode((W, H), 0, 32)
 clock = pg.time.Clock()
 
+font = pg.font.SysFont('ubuntu', 25, True, False)
+
+count = 0
+
 while True:
+    # count display
+    text = font.render("Rotation counts: {}".format(count), True, (255, 255, 255))
+    
     for event in pg.event.get():
         if event.type == QUIT:
             pg.quit()
@@ -150,65 +158,90 @@ while True:
 
         if event.type == KEYDOWN:
             if event.key == K_F4:
+                count = 0
                 cube.reset()
                 cube.shuffle()
             if event.key == K_F5:
+                count = 0
                 cube.reset()
+                
 
             if event.key == K_j:
                 cube.move_U()
+                count += 1
             if event.key == K_f:
                 cube.move_U_()
+                count += 1
             if event.key == K_h:
                 cube.move_F()
+                count += 1
             if event.key == K_g:
                 cube.move_F_()
+                count += 1
             if event.key == K_i:
                 cube.move_R()
+                count += 1
             if event.key == K_k:
                 cube.move_R_()
+                count += 1
             if event.key == K_s:
                 cube.move_D()
+                count += 1
             if event.key == K_l:
                 cube.move_D_()
+                count += 1
             if event.key == K_w:
                 cube.move_B()
+                count += 1
             if event.key == K_o:
                 cube.move_B_()
+                count += 1
             if event.key == K_d:
                 cube.move_L()
+                count += 1
             if event.key == K_e:
                 cube.move_L_()
+                count += 1
 
             if event.key == K_COMMA:
                 cube.move_u()
+                count += 1
             if event.key == K_c:
                 cube.move_u_()
+                count += 1
             # if event.key == K_:
             #     cube.move_f()
             # if event.key == K_:
             #     cube.move_f_()
             if event.key == K_u:
                 cube.move_r()
+                count += 1
             if event.key == K_m:
                 cube.move_r_()
+                count += 1
             if event.key == K_z:
                 cube.move_d()
+                count += 1
             if event.key == K_SLASH:
                 cube.move_d_()
+                count += 1
             # if event.key == K_:
             #     cube.move_b()
             # if event.key == K_:
             #     cube.move_b_()
             if event.key == K_v:
                 cube.move_l()
+                count += 1
             if event.key == K_r:
                 cube.move_l_()
+                count += 1
 
             if event.key == K_5 or event.key == K_6:
                 cube.move_M()
+                count += 1
             if event.key == K_x or event.key == K_PERIOD:
                 cube.move_M_()
+                count += 1
             # if event.key == K_:
             #     cube.move_E()
             # if event.key == K_:
@@ -232,8 +265,9 @@ while True:
                 cube.rotate_z_()
 
     screen.fill(GREY)
+    
 
-    # fill cube color
+    # fill cube coor
     face_color = cube.get_face_color()
     for r in range(3):
         for c in range(3):
@@ -249,6 +283,8 @@ while True:
     # draw lines
     for start, end in border_lines:
         pg.draw.line(screen, BLACK, start, end, width=5)
+        
+    screen.blit(text, (10, 5))
     
     pg.display.update()
     clock.tick(fps)
